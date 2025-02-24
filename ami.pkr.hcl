@@ -24,7 +24,7 @@ source "amazon-ebs" "go_app_with_cloudwatch" {
     most_recent = true
   }
 
-  instance_type    = "t3.micro"
+  instance_type    = "t3.large"
   ssh_username     = "ec2-user"
   ami_name         = "go-app-with-cloudwatch-{{timestamp}}"
   ami_description  = "Pre-baked AMI with Go and CloudWatch agent"
@@ -67,11 +67,11 @@ build {
       "sudo yum install -y git",
 
       # 4) Clone your Go server code
-      "git clone https://github.com/RuidiH/CS6650HW6_GO /home/ec2-user/go-server",
+      "git clone https://github.com/claireyyu/aws-go-server.git /home/ec2-user/go-server",
       "cd /home/ec2-user/go-server",
 
       # 5) Build the server
-      "/usr/local/go/bin/go build -o /home/ec2-user/go-server/CS6650HW6_GO main.go",
+      "/usr/local/go/bin/go build -o /home/ec2-user/go-server/album-server main.go",
 
       # 6) Install CloudWatch agent
       "sudo yum install -y amazon-cloudwatch-agent"
@@ -97,7 +97,7 @@ build {
       "sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a start -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -m ec2",
 
       # 7) Create a Systemd service for the Go app to start on boot
-      "cat << 'EOF' | sudo tee /etc/systemd/system/go-demo.service\n[Unit]\nDescription=Go Demo Server\nAfter=network.target\n[Service]\nType=simple\nExecStart=/home/ec2-user/go-server/CS6650HW6_GO\nRestart=always\nUser=ec2-user\n[Install]\nWantedBy=multi-user.target\nEOF",
+      "cat << 'EOF' | sudo tee /etc/systemd/system/go-demo.service\n[Unit]\nDescription=Go Demo Server\nAfter=network.target\n[Service]\nType=simple\nExecStart=/home/ec2-user/go-server/album-server\nRestart=always\nUser=ec2-user\n[Install]\nWantedBy=multi-user.target\nEOF",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable go-demo.service",
 
