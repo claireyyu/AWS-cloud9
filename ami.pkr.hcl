@@ -24,7 +24,7 @@ source "amazon-ebs" "go_app_with_cloudwatch" {
     most_recent = true
   }
 
-  instance_type    = "t3.large"
+  instance_type    = "t3.medium"
   ssh_username     = "ec2-user"
   ami_name         = "go-app-with-cloudwatch-{{timestamp}}"
   ami_description  = "Pre-baked AMI with Go and CloudWatch agent"
