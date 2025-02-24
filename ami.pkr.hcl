@@ -69,6 +69,7 @@ build {
       # 4) Clone your Go server code
       "git clone https://github.com/claireyyu/aws-go-server.git /home/ec2-user/go-server",
       "cd /home/ec2-user/go-server",
+      "/usr/local/go/bin/go get github.com/google/uuid",
 
       # 5) Build the server
       "/usr/local/go/bin/go build -o /home/ec2-user/go-server/album-server main.go",
