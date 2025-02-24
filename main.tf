@@ -173,7 +173,7 @@ resource "aws_security_group" "rds_sg" {
 # RDS MySQL
 ############
 resource "aws_db_subnet_group" "db_subnet_group" {
-  name = "demo-db-subnet-group"
+  name = "demo-db-subnet-group-2"
   subnet_ids = [
     aws_subnet.demo_subnet_a.id,
     aws_subnet.demo_subnet_b.id
