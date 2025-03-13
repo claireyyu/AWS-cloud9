@@ -183,16 +183,32 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   }
 }
 
+resource "aws_db_parameter_group" "mysql_parameters" {
+  name        = "demo-mysql-params"
+  family      = "mysql8.0"
+  description = "Custom parameter group for MySQL"
+
+  parameter {
+    name  = "max_connections"
+    value = "300"
+  }
+
+  tags = {
+    Name = "mysql-param-group"
+  }
+}
+
 resource "aws_db_instance" "mysql_demo" {
   identifier             = "demo-mysql"
   engine                 = "mysql"
   engine_version         = "8.0"
-  instance_class         = "db.t3.micro" # For demo
+  instance_class         = "db.t3.medium" # upgraded
   allocated_storage      = 20
   db_name                = "mydemodb" # DB name
   username               = var.db_username
   password               = var.db_password
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
+  parameter_group_name = aws_db_parameter_group.mysql_parameters.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   skip_final_snapshot    = true
   deletion_protection    = false
@@ -231,7 +247,7 @@ resource "aws_lb_target_group" "demo_tg" {
   health_check {
     port                = "traffic-port"
     protocol            = "HTTP"
-    path                = "/count" # The Go app route used for health checks
+    path                = "/health" # The Go app route used for health checks
     matcher             = "200-399"
     healthy_threshold   = 2
     unhealthy_threshold = 2
