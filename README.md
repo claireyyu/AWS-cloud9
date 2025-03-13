@@ -1,7 +1,3 @@
-# CS6650HW6_Terraform
-
-Link to Video Walkthrough: https://youtu.be/iHI988F-K5s
-
 ### Start
 Make sure you are in us-west-2 Oregon.
 Create a Cloud9 environment.
@@ -53,14 +49,6 @@ Enter 'yes' to continue
 ### Test
 With your Load Balancer address, use Postman to send Get and Post requests to your server.
 
-```
-// Example Get
-http://ENTER.ALB.DNS.NAME/count
-
-//Example Post
-http://ENTER.ALB.DNS.NAME/insert
-```
-
 ### Clean Up
 
 ```console
@@ -72,7 +60,3 @@ Enter 'yes' to confirm. If it fails, try again.
 ### Note
 Database Credential is hard-coded at the start of the main.tf file, 
 you might want to update them or find a more secure way to store these sensitive information
-
-
-### Author
-Ruidi Huang
